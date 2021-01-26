@@ -1,0 +1,23 @@
+{
+    
+    "env": {
+        "browser": true,
+        "es6":false,
+        "mocha":false
+    },
+    "ecmaFeatures": {
+        "modules": false,
+        "jsx": false
+    },
+    "rules": {
+        "no-console": 1,
+        "no-debugger": 2,
+        "indent": 2,
+        "no-var": 1,
+        "strict": 2
+    },
+    "parserOptions": {
+        "sourceType": "module"
+    }
+      
+}

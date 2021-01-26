@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tv focus web Test</title>
+    <style>
+        .item {
+            width: 100px;
+            height: 50px;
+            float: left;
+            margin: 20px;
+            background-color:#470098;
+        }
+    </style>
+</head>
+<body style="background-color: #000000;color: #ffffff;">
+    <div id="main">
+        <h1>{{title}}</h1>
+        <focus name="box" data={{box}} style="font-size: 20px;">
+            <div class="content">{{title}}：</div>
+            {{if 'red' == color}}
+            <focus width="200" height="100" name="red" data="{{red}}" style="background-color: red;">{{.}}</focus>
+            {{else}}
+            <focus name="red" data="{{green}}" style="background-color:green;width: 200px;height: 100px;">{{.}}</focus>
+            {{/if}}
+        </focus>
+        <focus name="date" height="{{date_h}}" style="font-weight: bold;line-height:{{date_h}}px;">{{new Date()}}</focus>
+        <focus name="string" style="color: red;">加法计算：{{'10+30=' + (10+30)}}</focus>
+        <div style="height: 100px;">
+            {{each list item}}
+            <focus name="item" data="{{item}}" class="item">{{.}}</focus>
+            {{/each}}
+        </div>
+        <div style="height: 100px;">
+            <focus each={{list}} name="item2" class="item">{{.}}--2</focus>
+        </div>
+    </div>
+    <script src="../dist/tvfocus.bundle.js"></script>
+    <script>
+    TVFocus.init({
+        ele:'#main',
+        data:{
+            title:'这是一个测试页面',
+            date_h:100,
+            box:{
+                title:'红绿测试',
+                color:'green',
+                red:'这是红色',
+                green:'这是绿色'
+            },
+            list:['aaa','bbb','ccc','ddd']
+        }
+    });
+    </script>
+</body>
+</html>

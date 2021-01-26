@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tv focus web Test</title>
+    <style>
+        .item {
+            width: 100px;
+            height: 50px;
+            float: left;
+            margin: 20px;
+            background-color:#470098;
+        }
+    </style>
+</head>
+<body style="background-color: #000000;color: #ffffff;">
+    <div id="main">
+        <h1>{{title}}</h1>
+        <focus name="box" data={{box}} style="font-size: 20px;height: 200px;">
+            <div class="content">{{title}}：</div>
+            {{if 'red' == color}}
+            <focus width="200" height="100" name="red" data="{{red}}" style="background-color: red;">{{$data}}</focus>
+            {{else}}
+            <focus name="green" data="{{green}}" style="background-color:green;width: 200px;height: 100px;">{{$data}}</focus>
+            {{/if}}
+        </focus>
+        <focus id="list" name="list" style="height: 100px;">
+            {{each page_data item}}
+            <focus name="item" data="{{item}}" class="item">{{$data}}</focus>
+            {{/each}}
+        </focus>
+    </div>
+    <script src="../dist/tvfocus.bundle.js"></script>
+    <script>
+    TVFocus.setting({
+        debug:2
+    });
+    TVFocus.addEventListener('box', {
+        'mounted':function(e) {
+            var _that = this, _data = e.data;
+            setTimeout(function() {
+                _data.color = 'red';
+                _that.rerender(_data);
+            }, 5000);
+        }
+    });
+    TVFocus.addEventListener('item', {
+        'created':function(e) {
+            this.$data = 'page' + TVFocus.getNodeById('list').data.page + '_' + e.data;
+        },
+        'mounted':function(e) {
+            
+        }
+    });
+    TVFocus.addEventListener('list', {
+        'created':function(e) {
+            this.data.page = e.data.page;
+        },
+        'mounted':function(e) {
+            var _that = this;
+            setTimeout(function() {
+                TVFocus.change(_that.children[1]);
+            },1000);
+            setInterval(function() {
+                _that.data.page++;
+                _that.rerender(e.data);
+            }, 3000);
+        }
+    });
+    TVFocus.init({
+        ele:'#main',
+        data:{
+            title:'这是一个测试页面',
+            date_h:100,
+            box:{
+                title:'红绿测试',
+                color:'green',
+                red:'这是红色',
+                green:'这是绿色'
+            },
+            list:{
+                page:1,
+                page_data:['aaa','bbb','ccc','ddd']
+            }
+        }
+    });
+    </script>
+</body>
+</html>

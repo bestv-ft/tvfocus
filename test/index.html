@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="cn-zh">
+<head>
+    <link rel="icon" href="data:;base64,=">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tv focus web Test</title>
+    <style>
+        .item {
+            float: left;
+            width: 100px;
+            height: 30px;
+            overflow: hidden;
+        }
+        .list {
+            height: 30px;
+        }
+    </style>
+</head>
+<body style="background-color: #000000;color: #ffffff;">
+    <div id="main">
+        <focus class="list" scroll="x:-30">
+            <focus each="{{$data}}" cache class="item">{{$data}}</focus>
+        </focus>
+    </div>
+    <script>
+        var i=0;
+        var node = TVFocus.createNode({
+            ele:'#main',
+            data:{
+                list:[1,2,3,4,5,6]
+            }
+        });
+        setInterval(()=>{
+            node.getChildByIndex(0).setScrollX(-i*30);i++
+        },1000);
+    </script>
+</body>
+</html>

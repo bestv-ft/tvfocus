@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tv focus web Test</title>
+    <style>
+        .nav {
+            width: 200px;
+            height: 50px;
+            float: left;
+            line-height: 50px;
+            text-align: center;
+            font-size: 18px;
+            margin: 0px 10px;
+            color: #f7fb1e;
+            background-color: #666666;
+        }
+        .content {
+            height: 400px;
+            margin-top:30px;
+        }
+        .left {
+            float: left;
+            width: 300px;
+        }
+        .left-btn {
+            margin: 10px 0;
+            padding-left: 20px;
+            background-color: #333333;
+        }
+        .bottom {
+            height: 100px;
+            position: relative;
+        }
+        .custom {
+            width: 200px;
+            height: 50px;
+            background-color: #666666;
+        }
+    </style>
+</head>
+<body style="background-color: #000000;color: #ffffff;">
+    <div id="main">
+        <h1>{{title}}</h1>
+        <focus class="topbar" top="88" style="
+        background-color: #4d824d;
+        width:100%" data="left">
+            <focus class="nav" each="{{$data}}">{{name}}</focus>
+            <br style="clear: both;">
+        </focus>
+        <div class="content">
+            <focus class="left">
+                <focus class="left-btn" each="{{$data}}">{{name}}</focus>
+            </focus>
+            <focus name="matrix" style="margin-left: 350px;height: 350px;">
+                <focus name="m_btn"
+                layout="
+                    left:{{10+$index%3*320}};
+                    top:{{10+Math.floor($index/3)*70}}"
+                style="
+                    float: left; 
+                    width: 300px;
+                    margin: 10px;
+                    background-color: #4d824d;
+                    height: 50px;" each={{$data}}>{{title}}</focus>
+            </focus>
+        </div>
+        <focus class="bottom">
+            <focus layout="left:{{$self.left}};top:{{$self.top}}" class="custom" each={{$data}} style="
+                position: absolute;
+                left: {{$self.left}}px;
+                top: {{$self.top}}px">{{name}}</focus>
+        </focus>
+    </div>
+    <script src="../dist/tvfocus.bundle.js"></script>
+    <script>
+    TVFocus.init({
+        ele:'#main',
+        data:{
+            title:'群组测试',
+            topbar:['aaaa','bbbb','cccc','dddd'],
+            left: [{
+                name:'左一',
+                url:'aaa'
+            },{
+                name:'左二',
+                url:'aaa'
+            },{
+                name:'左三',
+                url:'aaa'
+            },{
+                name:'左四',
+                url:'aaa'
+            },{
+                name:'左五',
+                url:'aaa'
+            }],
+            matrix: [
+                {title:'0,0'},
+                {title:'1,0'},
+                {title:'2,0'},
+                {title:'0,1'},
+                {title:'1,1'},
+                {title:'2,1'},
+                {title:'0,2'},
+                {title:'1,2'},
+                {title:'2,2'},
+                {title:'0,3'}
+            ],
+            bottom:[
+                {name:'自由排列一', left:100},
+                {name:'自由排列二', left:510, top:30},
+                {name:'自由排列三', left:850},
+                {name:'自由排列四', left:260, top:50}
+            ]
+        }
+    });
+    </script>
+</body>
+</html>

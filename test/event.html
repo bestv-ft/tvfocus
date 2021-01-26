@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="cn-zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tv focus web Test</title>
+    <style>
+        .nav {
+            width: 200px;
+            height: 50px;
+            float: left;
+            line-height: 50px;
+            text-align: center;
+            font-size: 18px;
+            margin: 0px 10px;
+            color: #f7fb1e;
+            background-color: #666666;
+        }
+        .content {
+            height: 400px;
+            margin-top:30px;
+        }
+        .left {
+            float: left;
+            width: 300px;
+        }
+        .left-btn {
+            margin: 10px 0;
+            padding-left: 20px;
+            background-color: #333333;
+        }
+        .bottom {
+            height: 100px;
+            position: relative;
+        }
+        .custom {
+            width: 200px;
+            height: 50px;
+            background-color: #666666;
+        }
+    </style>
+</head>
+<body style="background-color: #000000;color: #ffffff;">
+    <div id="main">
+        <h1>{{title}}</h1>
+        <focus id="a" class="topbar" style="
+        background-color: #4d824d;
+        height: 50px;
+        width:1300px" class="left">
+            <focus class="nav" each="{{$data}}">{{$data}}</focus>
+            <br style="clear: both;">
+        </focus>
+        <div class="content">
+            <focus class="left">
+                <focus class="left-btn" each="{{$data}}">{{name}}</focus>
+            </focus>
+            <focus id="b" name="matrix" style="margin-left: 320px;height: 178px;" scroll-y >
+                <focus name="m_btn" style="
+                    float: left; 
+                    width: 300px;
+                    margin: 10px;
+                    background-color: #4d824d;
+                    height: 50px;" each={{$data}}>{{title}}</focus>
+            </focus>
+        </div>
+    </div>
+    <script src="../dist/tvfocus.bundle.js"></script>
+    <script>
+    TVFocus.addEventListener('topbar', {
+        created (e) {
+            //this.id可能为空，可通过e.data修改渲染数据，可通过this.data赋值节点数据
+            //可通过this.setId设置ID，this.addTag添加标签
+            console.log('topbar created');
+            console.log(e.data);
+        },
+        mounted (e) {
+            //this.id确保有值，可通过this.data赋值节点数据，在此之后渲染数据将被清空
+            console.log('topbar mounted');
+        },
+        on (e) {
+            console.log('topbar on');
+        }
+    });
+    TVFocus.addEventListener('nav', 'mounted', function(e) {
+        if (1 == this.index%2) {
+            this.addTag('odd');
+        }
+        if ('bbbb'==e.data) {
+            this.addTag('bbbb');
+        }
+    });
+    TVFocus.addEventListener('nav', 'on', function(e) {
+        console.log('nav.on:', this.id);
+        setTimeout(()=>TVFocus.change(this.parent.getChildByIndex(this.index+1), TVFocus.DIR_RIGHT), 5000);
+    });
+    TVFocus.addEventListener('nav', 'border', function(e) {
+        if (6 == this.index && TVFocus.DIR_RIGHT === e.data.dir) {
+            e.preventDefault();
+            console.log('到这里就停止吧。');
+        }
+        console.log('nav.border:', this.id);
+    });
+    TVFocus.addEventListener('nav', 'blur', function(e) {
+        console.log('nav.blur:', this.id);
+    });
+    TVFocus.addEventListener('#odd', 'on', function(e) {
+        console.log('我是奇数，我落焦了。');
+    });
+    TVFocus.addEventListener('#bbbb', 'on', function(e) {
+        console.log('我是bbbb，我落焦了。');
+    });
+    TVFocus.addEventListener('$', 'created', function(e) {
+        //created时，this.id可能还没有分配。
+        console.log('我是接生婆！,小娃娃诞生了：' + this.name);
+    });
+    var mainFocus = TVFocus.createNode({
+        ele:'#main',
+        data:{
+            title:'事件监听测试',
+            topbar:['aaaa','bbbb','cccc','dddd','aaaa','bbbb','cccc','dddd'],
+            left: [{
+                name:'左一',
+                url:'aaa'
+            },{
+                name:'左二',
+                url:'aaa'
+            },{
+                name:'左三',
+                url:'aaa'
+            },{
+                name:'左四',
+                url:'aaa'
+            },{
+                name:'左五',
+                url:'aaa'
+            }],
+            matrix: [
+                {title:'0,0'},
+                {title:'1,0'},
+                {title:'2,0'},
+                {title:'0,1'},
+                {title:'1,1'},
+                {title:'2,1'},
+                {title:'0,2'},
+                {title:'1,2'},
+                {title:'2,2'},
+                {title:'0,3'}
+            ]
+        }
+    });
+    TVFocus.init(TVFocus.getNodeById('a').getChildByIndex(0));
+    </script>
+</body>
+</html>
