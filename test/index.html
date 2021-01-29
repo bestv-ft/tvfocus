@@ -1,39 +1,35 @@
 <!DOCTYPE html>
-<html lang="cn-zh">
+<html>
 <head>
-    <link rel="icon" href="data:;base64,=">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>tv focus web Test</title>
-    <style>
-        .item {
-            float: left;
-            width: 100px;
-            height: 30px;
-            overflow: hidden;
-        }
-        .list {
-            height: 30px;
-        }
-    </style>
+    <title>EPG7.11 TVFocusDemo</title>
+    <link rel="stylesheet" href="demo/style/index.css">
 </head>
-<body style="background-color: #000000;color: #ffffff;">
+<body>
     <div id="main">
-        <focus class="list" scroll="x:-30">
-            <focus each="{{$data}}" cache class="item">{{$data}}</focus>
-        </focus>
+        <div class="heder">
+            <focus class="statusbar" disabled>
+                <div class="logo"></div>
+                <div class="icon"></div>
+                <div class="weather"></div>
+                <div class="clock">--:--</div>
+            </div>
+            <focus class="navbar" data="menu" scroll="x">
+                <focus each="{{$data}}" class="nav" style="width:{{$self.width}}px">
+                    {{if show_image}}
+                    <div class="image-nav">
+                        <div class="image-nav-p" style="background-image: url({{default_icon}})"></div>
+                        <div class="image-nav-p" style="background-image: url({{focus_icon}})"></div>
+                        <div class="image-nav-p" style="background-image: url({{selected_icon}})"></div>
+                    </div>
+                    {{else}}
+                    {{name}}
+                    {{/if}}
+                </focus>
+            </focus>
+        </div>
     </div>
-    <script>
-        var i=0;
-        var node = TVFocus.createNode({
-            ele:'#main',
-            data:{
-                list:[1,2,3,4,5,6]
-            }
-        });
-        setInterval(()=>{
-            node.getChildByIndex(0).setScrollX(-i*30);i++
-        },1000);
-    </script>
+    <script type="module" src="demo/js/index.js"></script>
 </body>
 </html>
