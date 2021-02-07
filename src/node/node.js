@@ -52,6 +52,7 @@ function FocusNode(options_) {
     }
     this.data = {};
     this.tags = [];
+    this.focus_data = [];
     this.$data = options_.data || {};
     this.name = options_.name || 'root';
     this.$ele = null;
@@ -146,6 +147,11 @@ FocusNode.prototype.mount = function(ele_) {
     }
     Layout.showBorder(this);
     this.dispatch('mounted', this.$data);
+    for (var i = this.focus_data.length; i >= 0; i--) {
+        if (this.$data[this.focus_data[i]]) {
+            this.data[this.focus_data[i]] = this.$data[this.focus_data[i]];
+        }
+    }
     this.$data = undefined;
     this.$layout = undefined;
 }
@@ -226,6 +232,14 @@ FocusNode.prototype.getPost = function() {
     return {
         top : this.top+_p.top+(this.scrollY||0),
         left : this.left+_p.left+(this.scrollX||0)
+    }
+}
+FocusNode.prototype.markFocusData = function(key_) {
+    if (key_ instanceof Array) {
+        this.focus_data = key_;
+    }
+    else {
+        this.focus_data.push(key_);
     }
 }
 FocusNode.prototype.onMessage = function(name_, cb_) {

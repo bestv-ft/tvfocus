@@ -1,4 +1,5 @@
-function refreshClock(_box) {
+let _box;
+function refreshClock() {
         let _t = new Date(), _h = _t.getHours(), _m = _t.getMinutes();
         if (10 > _h) {
             _h = '0' + _h;
@@ -13,8 +14,8 @@ function refreshClock(_box) {
 export default function () {
     TVFocus.addEventListener('statusbar', {
         mounted () {
-            let _c = this.$ele.querySelector('.clock');
-            refreshClock(_c);
+            _box = this.$ele.querySelector('.clock');
+            refreshClock();
         }
     });
 }

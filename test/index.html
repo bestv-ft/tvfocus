@@ -14,8 +14,8 @@
                 <div class="icon"></div>
                 <div class="weather"></div>
                 <div class="clock">--:--</div>
-            </div>
-            <focus class="navbar" data="menu" scroll="x">
+            </focus>
+            <focus id="navbar" class="navbar" data="menu" scroll="x">
                 <focus each="{{$data}}" class="nav" style="width:{{$self.width}}px">
                     {{if show_image}}
                     <div class="image-nav">
@@ -26,6 +26,24 @@
                     {{else}}
                     {{name}}
                     {{/if}}
+                </focus>
+                <div class="navfocus"></div>
+            </focus>
+            <focus class="desktop" data="menu"  scroll="x">
+                <focus class="screnn" each="{{$data}}" scroll="y">
+                    <focus class="row" each="data">
+                        {{if title}}
+                        <div class="title">{{title}}</div>
+                        {{/if}}
+                        <div class="body" style="height: {{height}}px;">
+                            <focus class="entrance" each="data" style="width:{{item_width}}px;height:{{item_height}}px">
+                                <div class="still" style="background-image: url({{still}})"></div>
+                                {{if name}}
+                                <div class="name">{{name}}</div>
+                                {{/if}}
+                            </focus>
+                        </div>
+                    </focus>
                 </focus>
             </focus>
         </div>

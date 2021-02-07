@@ -16,7 +16,8 @@ function forEach (list_, mbarray_, cb_) {
             }
         }
         else {
-            throw new TypeError('The each attribute of the Focue must be an array');
+            console.log('wwww',list_);
+            throw new TypeError('The each attribute of the Focus must be an array');
         }
     }
 }
