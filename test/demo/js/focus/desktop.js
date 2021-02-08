@@ -50,17 +50,28 @@ export default function () {
                     e_.data.item_width = 2 * _multiple + _gap;
                     break;
             }
-            e_.data.height = e_.data.item_height;
+            let has_name = false;
+            if ('e' == e_.data.style) {
+                e_.data.data.map((d)=>{if (d.name){has_name=true}});
+            }
+            if (has_name) {
+                e_.data.height = e_.data.item_height + 30;
+            }
+            else {
+                e_.data.height = e_.data.item_height;
+            }
         }
     });
     TVFocus.addEventListener('entrance', {
         created (e_) {
-            console.log(e_.data.bg_image);
             if (e_.data.bg_image) {
                 e_.data.still = getImagePath() + e_.data.bg_image;
             }
             else {
                 e_.data.still = 'demo/images/tv.png';
+            }
+            if ('e' == e_.data.style) {
+                e_.data.title = e_.data.name;
             }
         }
     });

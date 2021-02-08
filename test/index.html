@@ -36,10 +36,10 @@
                         <div class="title">{{title}}</div>
                         {{/if}}
                         <div class="body" style="height: {{height}}px;">
-                            <focus class="entrance" each="data" style="width:{{item_width}}px;height:{{item_height}}px">
+                            <focus class="entrance" each="data" data-style="{{style}}" style="width:{{item_width}}px;height:{{item_height}}px">
                                 <div class="still" style="background-image: url({{still}})"></div>
-                                {{if name}}
-                                <div class="name">{{name}}</div>
+                                {{if title}}
+                                <div class="name">{{title}}</div>
                                 {{/if}}
                             </focus>
                         </div>

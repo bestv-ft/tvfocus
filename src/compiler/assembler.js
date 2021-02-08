@@ -120,6 +120,7 @@ Assembler.prototype.outputFocus = function(token_) {
         _dom_attr = [],    //DOM所需的属性
         _node_attr=[],     //Focus节点的属性
         _layout_attr=[],   //Focus节点的布局属性
+        _ext_attr=[],      //Focus节点的扩展数据属性
         _attr, _name, _style, _scroll;
     _name = _s.attributes['name'].value;
     for (var i in _s.attributes) {
@@ -166,12 +167,20 @@ Assembler.prototype.outputFocus = function(token_) {
             }
         }
         else if ('style' != i) {
-            _dom_attr.push(buildDomAttr(i, _attr.value, _attr.type));
+            if ('data-' == i.substr(0,5)) {
+                _ext_attr.push(buildNodeAttr(i.substr(5), _attr.value, _attr.type));
+            }
+            else {
+                _dom_attr.push(buildDomAttr(i, _attr.value, _attr.type));
+            }
         }
     }
     _style = _s.attributes['style'];
     if (0 < _layout_attr.length) {
         _node_attr.push('layout:{' + _layout_attr.join(',') + '}');
+    }
+    if (0 < _ext_attr.length) {
+        _node_attr.push('ext_data:{' + _ext_attr.join(',') + '}');
     }
     this.$CHILD_FUNCS[_name] = this.build(_s);
     _node_attr.push('render:$Runtime.renderFuncs[\'' + _name + '\']');

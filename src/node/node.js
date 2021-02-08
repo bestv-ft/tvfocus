@@ -43,6 +43,7 @@ FocusEvent.prototype.stopPropagation = function() {
  *      top:顶
  *      scrollX:左右滑动
  *      scrollY:上下滑动
+ *      ext_data:扩展数据
  * }
  */
 function FocusNode(options_) {
@@ -61,6 +62,11 @@ function FocusNode(options_) {
     this.scrollX = options_.scrollX;
     if (undefined !== options_.layout) {
         this.$layout = options_.layout;
+    }
+    if (undefined !== options_.ext_data) {
+        for (var k in options_.ext_data) {
+            this.$data[k] = options_.ext_data[k];
+        }
     }
     this.select = 0;
     this.selectDelay = 500;
