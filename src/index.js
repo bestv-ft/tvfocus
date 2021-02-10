@@ -100,7 +100,16 @@ var TVFocus = {
         }
     },
     moveTo:function(dir_) {
-        Finder.getClosest(dir_);
+        if (!this.node) {
+            return;
+        }
+        var _node = Finder.getNext(this.node, dir_);
+        if (!_node) {
+            this.node.dispatch('border', {dir:dir_});
+        }
+        else {
+            this.change(_node, dir_);
+        }
     }
 }
 

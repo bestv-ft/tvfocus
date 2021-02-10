@@ -135,8 +135,8 @@ FocusNode.prototype.mount = function(ele_) {
         this.$calcSize = {};
     }
     if (this.children) {
-        var _that = this, _len = this.children.length;
-        this.children.forEach(function(n_, i_) {
+        var _that = this;
+        this.children.forEach(function(n_) {
             n_.mount(Dom.querySelector('#' + n_.fingerprint, _that.$ele));
         });
     }
@@ -160,10 +160,12 @@ FocusNode.prototype.mount = function(ele_) {
     }
     this.$data = undefined;
     this.$layout = undefined;
+    this.focus_data = undefined;
 }
 
 FocusNode.prototype.dispatch = function(name_, data_) {
-    var _e = (data_ instanceof FocusEvent) ? data_ : new FocusEvent(data_);
+    var _e = (data_ instanceof FocusEvent) ? data_ : new FocusEvent(data_),
+        _ancestor;
     if (!_e.propagationStopped) {
         if (EventListener[this.name] && EventListener[this.name][name_]) {
             EventListener[this.name][name_].call(this, _e);
@@ -216,13 +218,15 @@ FocusNode.prototype.dispatch = function(name_, data_) {
         if (!this.parent) {
             return _e;
         }
-        var _ancestor = _e.data.new_node.parent;
-        //将new_node祖先遍历一遍，如果没有发现this.parent，则表示this.parent也失焦了
-        while(_ancestor) {
-            if (_ancestor.fingerprint === this.parent.fingerprint) {
-                break;
+        if (_e.data.new_node.parent) {
+            _ancestor = _e.data.new_node.parent;
+            //将new_node祖先遍历一遍，如果没有发现this.parent，则表示this.parent也失焦了
+            while(_ancestor) {
+                if (_ancestor.fingerprint === this.parent.fingerprint) {
+                    break;
+                }
+                _ancestor = _ancestor.parent;
             }
-            _ancestor = _ancestor.parent;
         }
         if (!_ancestor) {
             this.parent.dispatch(name_, _e);
@@ -230,14 +234,16 @@ FocusNode.prototype.dispatch = function(name_, data_) {
     }
     return _e;
 }
-FocusNode.prototype.getPost = function() {
+FocusNode.prototype.getRect = function() {
     var _p = {top:0,left:0};
     if (this.parent) {
-        _p = this.parent.getPost();
+        _p = this.parent.getRect();
     }
     return {
-        top : this.top+_p.top+(this.scrollY||0),
-        left : this.left+_p.left+(this.scrollX||0)
+        width:this.width,
+        height:this.height,
+        top : this.top+(this.scrollY||0),
+        left : this.left+(this.scrollX||0)
     }
 }
 FocusNode.prototype.markFocusData = function(key_) {

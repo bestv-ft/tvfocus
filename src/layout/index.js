@@ -34,11 +34,18 @@ module.exports = {
                 var _size = node_.parent.$calcSize;
                 if (undefined === _size.x) {
                     _size.y = node_.top;
-                    _size.g = node_.left*2; //@xxx 此处只能假定，子节点的左右外边距是相等的。
                 }
-                else if (_size.y != _top) {
-                    node_.left = _size.x + _size.g;
-                    node_.top = _size.y;
+                else {
+                    if (_size.y != node_.top) {
+                        if (undefined === _size.g) {
+                            _size.g = node_.left*2;
+                        }
+                        node_.left = _size.x + _size.g;
+                        node_.top = _size.y;
+                    }
+                    else if (undefined === _size.g) {
+                        _size.g = node_.left - _size.x;
+                    }
                 }
                 _size.x = node_.left + node_.width;
             }

@@ -26,8 +26,8 @@ export default function () {
             navfocusBox.style.width = this.data.width + 'px';
             navfocusBox.style.webkitTransform = `translate3d(${this.left-72}px, 0px, 0px)`;
         },
-        lost () {
-            this.$ele.style.color = '';
+        blur () {
+            this.$ele.style.color = '#888da1';
             this.$ele.style.fontWeight = '';
         }
     });
