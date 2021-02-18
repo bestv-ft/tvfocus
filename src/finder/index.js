@@ -146,24 +146,32 @@ function getNext (node_, dir_) {
     for (var i = 0; i < _len; i++) {
         _target = _candidates[i];
         //第一轮，状态过滤加方向过滤，不用考虑集合。
-        if (node_.fingerprint != _target.fingerprint && !_target.disabled && DirectionFilter[dir_](node_, _target)) {
-            if (1 === _target.select) {
-                //符合方向的选中状态节点，直接命中
-                _king = _target;
-                break;
-            }
-            //第二轮，投影过滤，不需要考虑集合。
-            if (ProjectionFilter[dir_](node_.getRect(), _target.getRect())) {
-                if (!_king) {
+        if (node_.fingerprint === _target.fingerprint || _target.disabled) {
+            continue;
+        }
+        else {
+            var _apos = DirectionFilter[dir_](node_, _target);
+            if (_apos) {
+                if (1 === _target.select) {
+                    //符合方向的选中状态节点，直接命中
                     _king = _target;
+                    break;
+                }
+                //第二轮，投影过滤，不需要考虑集合。
+                if (ProjectionFilter[dir_](node_.getRect(), _target.getRect())) {
+                    if (!_king) {
+                        _king = _target;
+                    }
+                    else {
+                        //第三轮，位置竞争，打平时需要考虑集合
+                        _king = positionCompete(node_, _king, _target, dir_);
+                    }
                 }
                 else {
-                    //第三轮，位置竞争，打平时需要考虑集合
-                    _king = positionCompete(node_, _king, _target, dir_);
+                    if (!_target.children || 1 === _apos) {
+                        _same_camp.push(_target);
+                    }
                 }
-            }
-            else {
-                _same_camp.push(_target);
             }
         }
     }
@@ -176,8 +184,8 @@ function getNext (node_, dir_) {
         }
         for (var j = 1; j < _len; j++) {
             _target = _same_camp[j];
-            if (_target.length) {
-                _target = Converter.mapOut(getNext(Converter.mapIn(node_, _target), dir));
+            if (_target.children) {
+                _target = Converter.mapOut(getNext(Converter.mapIn(node_, _target), dir_));
             }
             _king = distanceCompete(node_, _king, _target);
         }
