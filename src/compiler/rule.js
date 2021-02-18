@@ -104,7 +104,7 @@ var Rule = {
                 _attrs['scroll'].dir = 'x';
                 _attrs['scroll'].value = 0;
             }
-            var _p = /^(x|y)(?::(?:(-?\d+)|(?:{{\s*(.+?)\s*}})))?$/.exec(_attrs['scroll'].value);
+            var _p = /^(x|y|auto)(?::(?:(-?\d+)|(?:{{\s*(.+?)\s*}})))?$/.exec(_attrs['scroll'].value);
             if (!_p) {
                 throw new Error('\'scroll\' attribute value error');
             }

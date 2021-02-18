@@ -21,7 +21,7 @@ module.exports = {
         if (target_.left + target_.width <= origin_.left) {
             return true;
         }
-        if (target_.left - target_.width/2 < origin_.top - origin_.left/2) {
+        if (target_.left - target_.width/2 < origin_.left - origin_.width/2) {
             return true;
         }
         return false;
@@ -30,7 +30,7 @@ module.exports = {
         if (origin_.left + origin_.width <= target_.left) {
             return true;
         }
-        if (origin_.left - origin_.width/2 < target_.top - target_.left/2) {
+        if (origin_.left - origin_.width/2 < target_.left - target_.width/2) {
             return true;
         }
         return false;

@@ -142,9 +142,12 @@ Assembler.prototype.outputFocus = function(token_) {
                 _scroll = [0, _attr.value];
                 _node_attr.push('scrollY:' + _attr.value);
             }
-            else {
+            else if ('x' == _attr.dir) {
                 _scroll = [_attr.value, 0];
                 _node_attr.push('scrollX:' + _attr.value);
+            }
+            else {
+                _scroll = [0];
             }
         }
         else if ('layout' == i) {
@@ -190,9 +193,18 @@ Assembler.prototype.outputFocus = function(token_) {
         _style.value['overflow'] = {type:'String', value:'hidden'};
         _dom_attr.push(buildDomAttr('style', buildStyle(_style.value), 'String'));
         _tag.push($OUT + ' += \'<div ' + _dom_attr.join(' ') + ' id="\'+_f.fingerprint+\'">\';');
+        if (1 == _scroll.length) { //动态判断是否需要滑动
+            _tag.push('if (undefined !== _f.scrollX || undefined !== _f.scrollY) {');
+        }
         _tag.push($OUT + ' += \'<div style="position:absolute;width:inherit;' + Layout.buildPostStypeString(_scroll[0], _scroll[1]) + '">\';');
         _tag.push($OUT + ' += _f.render();');
-        _tag.push($OUT + ' += \'</div></div>\'');
+        _tag.push($OUT + ' += \'</div>\'');
+        if (1 == _scroll.length) { //动态判断是否需要滑动
+            _tag.push('} else {');
+            _tag.push($OUT + ' += _f.render();');
+            _tag.push('}');
+        }
+        _tag.push($OUT + ' += \'</div>\'');
     }
     else {
         _style = buildStyle(_style.value);

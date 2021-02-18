@@ -218,7 +218,7 @@ FocusNode.prototype.dispatch = function(name_, data_) {
         if (!this.parent) {
             return _e;
         }
-        if (_e.data.new_node.parent) {
+        if (_e.data.new_node && _e.data.new_node.parent) {
             _ancestor = _e.data.new_node.parent;
             //将new_node祖先遍历一遍，如果没有发现this.parent，则表示this.parent也失焦了
             while(_ancestor) {
@@ -235,15 +235,23 @@ FocusNode.prototype.dispatch = function(name_, data_) {
     return _e;
 }
 FocusNode.prototype.getRect = function() {
-    var _p = {top:0,left:0};
-    if (this.parent) {
-        _p = this.parent.getRect();
-    }
     return {
         width:this.width,
         height:this.height,
         top : this.top+(this.scrollY||0),
         left : this.left+(this.scrollX||0)
+    }
+}
+FocusNode.prototype.getPost = function() {
+    var _p = {top:0,left:0};
+    if (this.parent) {
+        _p = this.parent.getPost();
+    }
+    return {
+        width:this.width,
+        height:this.height,
+        top : this.top+(this.scrollY||0)+_p.top,
+        left : this.left+(this.scrollX||0)+_p.left
     }
 }
 FocusNode.prototype.markFocusData = function(key_) {
