@@ -1,4 +1,5 @@
 import {getCNlength, getImagePath} from '../utils.js';
+let _last_tab;
 export default function () {
     TVFocus.addEventListener('row', {
         created (e_) {
@@ -50,7 +51,7 @@ export default function () {
                     e_.data.item_width = 2 * _multiple + _gap;
                     break;
             }
-            let has_name = false;
+            let has_name = false, _len = e_.data.data.length;
             if ('e' == e_.data.style) {
                 e_.data.data.map((d)=>{if (d.name){has_name=true}});
             }
@@ -59,6 +60,9 @@ export default function () {
             }
             else {
                 e_.data.height = e_.data.item_height;
+            }
+            if ((e_.data.item_width*_len + _gap * (_len - 1)) > 1132) {
+                this.scrollX = 0;
             }
         }
     });
@@ -72,6 +76,23 @@ export default function () {
             }
             if ('e' == e_.data.style) {
                 e_.data.title = e_.data.name;
+            }
+        }
+    });
+    TVFocus.addEventListener('desktop', {
+        mounted () {
+            this.onMessage('changeTab', function(msg_) {
+                this.setScrollX(-1280*msg_.data);
+                this.children[msg_.data].disabled = 0;
+                if (undefined !== _last_tab) {
+                    this.children[_last_tab].disabled = 1;
+                }
+                _last_tab = msg_.data;
+            });
+        },
+        border (e) {
+            if ('up' == e.data.dir) {
+                TVFocus.hideUI();
             }
         }
     });

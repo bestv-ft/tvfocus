@@ -25,6 +25,9 @@ function keyListen() {
 }
 
 window.onload = function() {
+    TVFocus.setting({
+        ui:true
+    });
     DataLoader.get().then(function(ret_) {
         let _main_node, _focus_node;
         NavbarFocus();

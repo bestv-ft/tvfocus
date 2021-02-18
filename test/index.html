@@ -19,8 +19,8 @@
                 <focus each="{{$data}}" cache class="nav" style="width:{{$self.width}}px">
                     {{if show_image}}
                     <div class="image-nav">
-                        <div class="image-nav-p" style="background-image: url({{default_icon}})"></div>
                         <div class="image-nav-p" style="background-image: url({{focus_icon}})"></div>
+                        <div class="image-nav-p" style="background-image: url({{default_icon}})"></div>
                         <div class="image-nav-p" style="background-image: url({{selected_icon}})"></div>
                     </div>
                     {{else}}
@@ -30,20 +30,22 @@
                 <div class="navfocus"></div>
             </focus>
             <focus class="desktop" data="menu"  scroll="x">
-                <focus class="screnn" each="{{$data}}" scroll="y">
-                    <focus class="row" each="data">
+                <focus class="screnn" each="{{$data}}" disabled scroll="y">
+                    {{each data row}}
+                    <div class="row">
                         {{if title}}
                         <div class="title">{{title}}</div>
                         {{/if}}
-                        <div class="body" style="height: {{height}}px;">
+                        <focus name="row" class="body" scroll="auto" style="height: {{$self.height}}px;">
                             <focus class="entrance" each="data" data-style="{{style}}" style="width:{{item_width}}px;height:{{item_height}}px">
                                 <div class="still" style="background-image: url({{still}})"></div>
                                 {{if title}}
                                 <div class="name">{{title}}</div>
                                 {{/if}}
                             </focus>
-                        </div>
-                    </focus>
+                        </focus>
+                    </div>
+                    {{/each}}
                 </focus>
             </focus>
         </div>
