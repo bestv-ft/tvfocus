@@ -64,48 +64,28 @@
     TVFocus.setting({
         ui:true
     });
-    TVFocus.addEventListener('$', {
-        blur : function(e) {
-            console.log('event blur',this.name,e);
-        },
-        border : function(e) {
-            //e.preventDefault();
-            console.log('event border',this.name,e.data.dir);
+    document.onkeydown = function(e) {
+        if (38 == e.keyCode) {
+            TVFocus.moveTo('up');
+            e.preventDefault();
         }
-    });
-    TVFocus.addEventListener('nav', {
-        on : function(e) {
-            if ('left' == e.data.dir || 'right' == e.data.dir) {
-                console.log('changeTab', this.index);
-                this.postMessage('changeTab', this.index);//广播消息
-                this.postMessage('tabShow', '嘿嘿', 'tab_' + this.index);//单点消息
-            }
+        else if (40 == e.keyCode) {
+            TVFocus.moveTo('down');
+            e.preventDefault();
         }
-    });
-    TVFocus.addEventListener('content', {
-        mounted : function(e) {
-            this.$scroll.style.webkitTransitionDuration = '.3s';
-            this.onMessage('changeTab', function(msg_) {
-                console.log('收到消息changeTab，消息来源：',msg_.source);
-                console.log('收到消息changeTab，消息数据：',msg_.data);
-                this.setScrollX(-1280*msg_.data);
-            });
+        else if (37 == e.keyCode) {
+            TVFocus.moveTo('left');
+            e.preventDefault();
         }
-    });
-    TVFocus.addEventListener('tab', {
-        mounted : function(e) {
-            this.onMessage('tabShow', function(msg_) {
-                console.log('该我上场了', this.name,this.index,msg_.data);
-            });
-            this.onMessage('changeTab', function(msg_) {
-                console.log('我来打酱油', this.name,this.index);
-            });
+        else if (39 == e.keyCode) {
+            TVFocus.moveTo('right');
+            e.preventDefault();
         }
-    });
+    }
     var mainFocus = TVFocus.createNode({
         ele:'#main',
         data:{
-            title:'消息监听测试',
+            title:'寻路测试',
             menu:[{
                 name:'看电视',
                 data:['aaaa','bbbb','cccc','dddd']
@@ -149,18 +129,9 @@
         }
     });
     try {
-        TVFocus.init(TVFocus.getNodeById('nav_0'));
+        TVFocus.init(TVFocus.getNodeById('main_0_menu_0_nav'));
     }
     catch (e) {}
-    document.body.addEventListener('click',function (e) {
-        var _class = e.target.className;
-        if ('nav' == _class) {
-            TVFocus.change(TVFocus.getNodeById('#' + e.target.id), 'left');
-        }
-        if ('item' == _class) {
-            TVFocus.change(TVFocus.getNodeById('#' + e.target.id));
-        }
-    });
     </script>
 </body>
 </html>
