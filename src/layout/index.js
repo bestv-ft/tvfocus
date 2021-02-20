@@ -7,7 +7,14 @@ module.exports = {
     moveType : 1,
     calcSpace: function(node_) {
         if (undefined === node_.$layout) {
-            var _rect = node_.$ele.getBoundingClientRect(), _left, _top;
+            var _ele, _rect, _left, _top,_style;
+            if (undefined !== node_.scrollY) { //@xxx 有垂直滑动布局的节点，需要取滑动块的宽高，有水平滑动的节点，不需要，因为后面可能要重排。
+                _ele = node_.$scroll;
+            }
+            else {
+                _ele = node_.$ele;
+            }
+            _rect = _ele.getBoundingClientRect();
             _left = parseInt(_rect.left);
             _top = parseInt(_rect.top);
             if (node_.parent) {
@@ -38,7 +45,8 @@ module.exports = {
                 else {
                     if (_size.y != node_.top) {
                         if (undefined === _size.g) {
-                            _size.g = node_.left*2;
+                            _style = getComputedStyle(node_.$ele, null);
+                            _size.g = node_.left + (parseInt(_style.marginRight)||0);
                         }
                         node_.left = _size.x + _size.g;
                         node_.top = _size.y;
@@ -62,7 +70,7 @@ module.exports = {
                 node_.height = SIZE_HISTORY[node_.name].height;
             }
             else {
-                var _style = getComputedStyle(node_.$ele, null);
+                _style = getComputedStyle(node_.$ele, null);
                 if (undefined === _layout.width) {
                     node_.width = parseInt(_style.width);
                 }

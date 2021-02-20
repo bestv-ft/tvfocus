@@ -83,6 +83,7 @@ var TVFocus = {
                 }
                 var _post = this.getPost();
                 UI.on(this.width,this.height,_post.left, _post.top);
+                TVFocus.locked = 0;
             });
         }
     },
@@ -103,12 +104,16 @@ var TVFocus = {
         if (!this.node) {
             return;
         }
+        if (this.locked) {
+            return;
+        }
         var _node = Finder.getNext(this.node, dir_);
         if (!_node) {
             this.node.dispatch('border', {dir:dir_});
+            return false;
         }
         else {
-            this.change(_node, dir_);
+            return this.change(_node, dir_);
         }
     }
 }

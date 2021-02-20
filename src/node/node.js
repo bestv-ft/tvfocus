@@ -12,9 +12,13 @@ function FocusEvent (data_) {
     this.defaultPrevented = false;
     this.propagationStopped = false;
     this.data = data_ || {};
+    this.delay = 0;
 }
 FocusEvent.prototype.preventDefault = function() {
     this.defaultPrevented = true;
+}
+FocusEvent.prototype.sleep = function(t_) {
+    this.delay = t_;
 }
 FocusEvent.prototype.stopPropagation = function() {
     this.propagationStopped = true;
@@ -69,7 +73,7 @@ function FocusNode(options_) {
         }
     }
     this.select = 0;
-    this.selectDelay = 500;
+    this.selectDelay = 0;
     this.status = 0;
     this.fingerprint = uuid();
     NodeHashMap[this.fingerprint] = this;
@@ -127,12 +131,15 @@ FocusNode.prototype.rerender = function(data_) {
 
 FocusNode.prototype.mount = function(ele_) {
     this.$ele = ele_;
-    Layout.calcSpace(this);
     if (undefined !== this.scrollY || undefined !== this.scrollX) {
         this.$scroll = this.$ele.firstElementChild;
     }
+    Layout.calcSpace(this);
     if (undefined !== this.scrollX) {
         this.$calcSize = {};
+    }
+    if (!this.id) {
+        this.setId();
     }
     if (this.children) {
         var _that = this;
@@ -143,12 +150,10 @@ FocusNode.prototype.mount = function(ele_) {
     if (!this.height) {
         throw new Error('Focus ' + this.name + ' not set height');
     }
-    if (!this.id) {
-        this.setId();
-    }
     if (this.$calcSize && this.$calcSize.x) {
         //如果是横向滚动的布局，则同步滚动条的宽度。
         this.$scroll.style.width = (this.$calcSize.x + this.$calcSize.g) + 'px';
+        this.width = this.$calcSize.x;
         this.$calcSize = undefined;
     }
     Layout.showBorder(this);
@@ -165,7 +170,7 @@ FocusNode.prototype.mount = function(ele_) {
 
 FocusNode.prototype.dispatch = function(name_, data_) {
     var _e = (data_ instanceof FocusEvent) ? data_ : new FocusEvent(data_),
-        _ancestor;
+        _ancestor, _that;
     if (!_e.propagationStopped) {
         if (EventListener[this.name] && EventListener[this.name][name_]) {
             EventListener[this.name][name_].call(this, _e);
@@ -179,8 +184,15 @@ FocusNode.prototype.dispatch = function(name_, data_) {
             EventListener['$'][name_].call(this, _e);
         }
     }
-    if (!_e.defaultPrevented) {
-        if (DefaultEventListener[name_]) {
+    if (!_e.defaultPrevented && DefaultEventListener[name_]) {
+        if (0 < _e.delay) {
+            _that = this;
+            setTimeout(function () {
+                DefaultEventListener[name_].call(_that, _e);
+            }, _e.delay);
+            _e.delay = 0;
+        }
+        else {
             DefaultEventListener[name_].call(this, _e);
         }
     }
@@ -191,7 +203,7 @@ FocusNode.prototype.dispatch = function(name_, data_) {
             this.parent.dispatch(name_, _e);
         }
         if (!this.children) {
-            var _that = this;
+            _that = this;
             setTimeout(function () {
                 if (1 == _that.status && 0 == _that.select) {
                     if (_that.cacheID) {
@@ -234,6 +246,10 @@ FocusNode.prototype.dispatch = function(name_, data_) {
     }
     return _e;
 }
+
+/**
+ * 获取相对位置
+ */
 FocusNode.prototype.getRect = function() {
     return {
         width:this.width,
@@ -242,6 +258,10 @@ FocusNode.prototype.getRect = function() {
         left : this.left+(this.scrollX||0)
     }
 }
+
+/**
+ * 获取绝对位置
+ */
 FocusNode.prototype.getPost = function() {
     var _p = {top:0,left:0};
     if (this.parent) {
@@ -337,7 +357,7 @@ FocusNode.prototype.getChildByIndex = function (index_) {
  * ID与指纹的区别：指纹是每个节点的唯一标识。ID是活跃节点的唯一标识，当页面发生翻页、返回等行为时。
  * 利用ID可找到离开前的节点，指纹则不可以。
  * 知道父节点的ID，可以通过name和index拼接出子节点的ID，指纹的生成则是不可逆的。
- * @param {String} id_ 
+ * @param {String} id_
  */
 FocusNode.prototype.setId = function (id_) {
     if (this.id) {
