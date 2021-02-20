@@ -4,6 +4,13 @@ export default function () {
     TVFocus.addEventListener('navbar', {
         mounted () {
             navfocusBox = document.querySelector('.navfocus', this.$ele);
+            this.onMessage('navScroll', function(msg_) {
+                let _offset = this.scrollX+msg_.data;
+                if (0 < _offset) {
+                    _offset = 0;
+                }
+                this.setScrollX(_offset);
+            });
         }
     });
     TVFocus.addEventListener('nav', {
@@ -19,10 +26,16 @@ export default function () {
             else {
                 e_.data.width = getCNlength(e_.data.name)*18;
             }
-            this.selectDelay = 0;
             this.markFocusData('width');
         },
         on (e) {
+            let _rect = this.getPost();
+            if (1280 <= _rect.left+_rect.width && 'right' == e.data.dir) {
+                this.postMessage('navScroll', -_rect.width-36, this.parent.id);
+            }
+            else if (72 > _rect.left) {
+                this.postMessage('navScroll', _rect.width+36, this.parent.id);
+            }
             if (this.data.show_image) {
                 this.$ele.firstElementChild.style.webkitTransform = `translate3d(0,${-this.height}px,0)`;
                 navfocusBox.style.webkitTransform = 'translate3d(0,0,0) scale(0)';

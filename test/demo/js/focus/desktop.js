@@ -1,10 +1,11 @@
 import {getCNlength, getImagePath} from '../utils.js';
 let _last_tab;
+let _multiple = 72, _gap = 24;
 export default function () {
     TVFocus.addEventListener('row', {
         created (e_) {
-            let _multiple = 72, _gap = 24;
-            if (!(e_.data.data instanceof Array)) {
+            if (!(e_.data.data instanceof Array) || 0 == e_.data.data.length) {
+                e_.data.style = 'e';
                 e_.data.data = new Array(6).fill('').reduce((d)=>{d.push({name:''});return d},[]);
             }
             switch(e_.data.style) {
@@ -64,6 +65,14 @@ export default function () {
             if ((e_.data.item_width*_len + _gap * (_len - 1)) > 1132) {
                 this.scrollX = 0;
             }
+        },
+        mounted() {
+            this.onMessage('rowScroll', function(msg_) {
+                this.setScrollX(this.scrollX-msg_.data);
+            });
+            if (this.$scroll) {
+                this.$scroll.style.webkitTransitionDuration = '160ms';
+            }
         }
     });
     TVFocus.addEventListener('entrance', {
@@ -72,11 +81,53 @@ export default function () {
                 e_.data.still = getImagePath() + e_.data.bg_image;
             }
             else {
-                e_.data.still = 'demo/images/tv.png';
+                e_.data.still = 'default';
             }
             if ('e' == e_.data.style) {
                 e_.data.title = e_.data.name;
             }
+        },
+        on (e) {
+            let _p = this.getPost();
+            if (1200 < _p.left && 'right' == e.data.dir) {
+                e.sleep(200);
+                TVFocus.locked = 1;
+                TVFocus.hideUI();
+                this.postMessage('rowScroll', _p.width+_gap, this.parent.id);
+            }
+            else if (0 > _p.left && 'left' == e.data.dir) {
+                e.sleep(200);
+                TVFocus.locked = 1;
+                TVFocus.hideUI();
+                this.postMessage('rowScroll', -_p.width-_gap, this.parent.id);
+            }
+            else if (700 < _p.top + _p.height && 'down' == e.data.dir) {
+                e.sleep(200);
+                TVFocus.locked = 1;
+                TVFocus.hideUI();
+                this.postMessage('waterfallsflow', _p.height+30, this.parent.parent.id);
+            }
+            else if (108 >= _p.top && 'up' == e.data.dir) {
+                e.sleep(200);
+                TVFocus.locked = 1;
+                TVFocus.hideUI();
+                this.postMessage('waterfallsflow', -_p.height-30, this.parent.parent.id);
+            }
+        }
+    });
+    TVFocus.addEventListener('screnn', {
+        mounted () {
+            this.$scroll.style.webkitTransitionDuration = '160ms';
+            this.onMessage('waterfallsflow', function(msg_) {
+                let _offset = this.scrollY - msg_.data;
+                if (0 < _offset) {
+                    _offset = 0;
+                }
+                if (660 > this.height + _offset) {
+                    _offset = -this.height + 660;
+                }
+                this.setScrollY(_offset);
+            });
         }
     });
     TVFocus.addEventListener('desktop', {

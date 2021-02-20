@@ -38,7 +38,11 @@
                         {{/if}}
                         <focus name="row" class="body" scroll="auto" style="height: {{$self.height}}px;">
                             <focus class="entrance" each="data" data-style="{{style}}" style="width:{{item_width}}px;height:{{item_height}}px">
+                                {{if 'default' == still}}
+                                <div class="still" style="background-image: url(demo/images/tv.png);background-size: auto;"></div>
+                                {{else}}
                                 <div class="still" style="background-image: url({{still}})"></div>
+                                {{/if}}
                                 {{if title}}
                                 <div class="name">{{title}}</div>
                                 {{/if}}
