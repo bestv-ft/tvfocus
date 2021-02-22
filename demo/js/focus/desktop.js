@@ -1,3 +1,4 @@
+import TVFocus from '../../../src/index';
 import {getCNlength, getImagePath} from '../utils.js';
 let _last_tab;
 let _multiple = 72, _gap = 24;

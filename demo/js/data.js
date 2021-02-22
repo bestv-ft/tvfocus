@@ -153,7 +153,7 @@ function getData () {
 export default {
     get () {
         return new Promise((ret_)=>{
-            getData('demo/test_data/index.json', (d_)=>{
+            getData('test_data/index.json', (d_)=>{
                 ret_(JSON.parse(d_));
             })
         });

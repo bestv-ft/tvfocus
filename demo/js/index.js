@@ -1,7 +1,9 @@
+import TVFocus from '../../src/index';
 import DataLoader from './data.js';
 import StatusbarFocus from './focus/statusbar.js';
 import NavbarFocus from './focus/navbar.js';
 import DesktopFocus from './focus/desktop.js';
+import MainTemp from '../focus/main.focus';
 
 function keyListen() {
     document.onkeydown = function(e) {
@@ -35,6 +37,7 @@ window.onload = function() {
         DesktopFocus();
         _main_node = TVFocus.createNode({
             ele:'#main',
+            template:MainTemp,
             data:ret_
         });
         _focus_node = TVFocus.getNodeById('navbar');

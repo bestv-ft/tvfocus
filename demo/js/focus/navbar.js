@@ -1,3 +1,4 @@
+import TVFocus from '../../../src/index';
 import {getCNlength, getImagePath} from '../utils.js';
 let navfocusBox;
 export default function () {

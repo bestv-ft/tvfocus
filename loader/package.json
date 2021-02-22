@@ -1,0 +1,11 @@
+{
+  "name": "tvfocus-loader",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "author": "derong.zeng",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {}
+}

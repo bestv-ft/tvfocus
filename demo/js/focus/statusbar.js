@@ -1,3 +1,4 @@
+import TVFocus from '../../../src/index';
 let _box;
 function refreshClock() {
         let _t = new Date(), _h = _t.getHours(), _m = _t.getMinutes();
