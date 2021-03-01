@@ -1,4 +1,4 @@
-# TVFocus指南(第二版)
+# TVFocus指南
 
 # 介绍
 TVFocus是一个用于TV端，开发web应用的js框架。和其它框架相比，TVFocus专注处理TV端的光标问题，体积小效率高，可与其它框架搭配使用。
