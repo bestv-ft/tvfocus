@@ -23,12 +23,12 @@ var TVFocus = {
         }
         _temp = opts_.template || _ele.innerHTML;
         if (_temp) {
-            opts_.render = Compiler(_temp);
+            return Compiler(_temp).createInstance(opts_);
         }
         else {
             opts_.render = function(){return ''};
+            return new FocusNode(opts_);
         }
-        return new FocusNode(opts_);
     },
     init : function (node_) {
         if (!node_) {

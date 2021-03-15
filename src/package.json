@@ -1,0 +1,26 @@
+{
+  "name": "tvfocus",
+  "version": "1.1.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": {
+    "name": "derong.zeng",
+    "email": "zr443@163.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com:bestv-ft/tvfocus.git"
+  },
+  "homepage": "https://www.yuque.com/ivgmag",
+  "keywords": [
+    "template",
+    "focus",
+    "tv"
+  ],
+  "description": "a javascript component framework on TV",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
+}

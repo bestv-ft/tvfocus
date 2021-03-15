@@ -1,8 +1,6 @@
 var Rule = require('./rule');
 var Assembler = require('./assembler');
 var Contextspace = require('./contextspace');
-var Runtime = require('../runtime');
-var FocusNode = require('../node/node');
 var ErrorHandler = require('../error/handler');
 
 /**
@@ -21,7 +19,7 @@ function Compiler() {
  */
 Compiler.prototype.exec = function(str_) {
     var _r = new RegExp(Rule.Catcher,'ig'), _m=_r.exec(str_),
-        _token, _head = 0, _len = str_.length, _rumtime = new Runtime(str_);
+        _token, _head = 0, _len = str_.length;
     while (null !== _m) {
         //_m数组说明：0是匹配到的字符串，1是大括号内的变量，2是focus的属性值
         if (_head < _m.index) {
@@ -78,11 +76,7 @@ Compiler.prototype.exec = function(str_) {
     else {
         this.pointer.end = _len - 1;
     }
-    var _funcs = Assembler.build(this.space);
-    for (var i in _funcs[1]) {
-        _rumtime.addFocusRender(i, new Function('$Runtime', 'FocusNode', 'return ' + _funcs[1][i])(_rumtime, FocusNode));
-    }
-    return new Function('$Runtime', 'FocusNode', 'return ' + _funcs[0])(_rumtime, FocusNode);
+    return Assembler.build(this.space);
 }
 
 module.exports = Compiler;

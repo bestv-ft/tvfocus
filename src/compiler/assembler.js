@@ -186,8 +186,7 @@ Assembler.prototype.outputFocus = function(token_) {
         _node_attr.push('ext_data:{' + _ext_attr.join(',') + '}');
     }
     this.$CHILD_FUNCS[_name] = this.build(_s);
-    _node_attr.push('render:$Runtime.renderFuncs[\'' + _name + '\']');
-    _tag.push('\nvar _f=new FocusNode({' + _node_attr.join(',') + '});\n_thisnode.addChild(_f);');
+    _tag.push('\nvar _f=$Runtime.createNode({' + _node_attr.join(',') + '},\'' + _name + '\');\n_thisnode.addChild(_f);');
     if (undefined !== _scroll) {
         _style.value['position'] = {type:'String', value:'relative'};
         _style.value['overflow'] = {type:'String', value:'hidden'};
