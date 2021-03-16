@@ -3,11 +3,10 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: './src/index.js',
+    entry: './test/component/index.js',
     devtool: 'cheap-module-eval-source-map',
     output: {
-        filename:'tvfocus.bundle.js?v=[hash]',
-        library: 'TVFocus',
+        filename:'test.bundle.js?v=[hash]',
         path: path.resolve(__dirname, './dist')
     },
     devServer:{
@@ -16,6 +15,20 @@ module.exports = {
         inline:true,
         contentBase:'./test/',
         open:true //是否自动打开默认浏览器
+    },
+    module: {
+        rules: [
+            {
+                test:/\.focus$/,
+                exclude:/(node_modules)/,//排除掉node_module目录
+                use:path.resolve(__dirname, './loader/index.js')
+            }
+        ]
+    },
+    resolve:{
+        alias: {
+            'tvfocus': path.resolve(__dirname,'./src')// 这样配置后 @ 可以指向 src 目录
+        }
     },
     optimization: {
         minimizer: [new UglifyJsPlugin({
@@ -26,7 +39,7 @@ module.exports = {
     },
     plugins:[
         new HtmlPlugin({   //入口自动注入
-            inject:'head',
+            inject:true,
             filename: './index.html',      //相对于output.path
             template: './test/index.html'
         })

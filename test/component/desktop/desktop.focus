@@ -1,0 +1,5 @@
+<template>
+<focus class="screnn" each="{{$data}}" disabled scroll="y">
+    {{name}}
+</focus>
+</template>

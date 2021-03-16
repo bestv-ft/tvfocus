@@ -1,0 +1,11 @@
+<template>
+<focus class="header" data="{{menu}}"></focus>
+<focus class="desktop" data="menu"  scroll="x"></focus>
+</template>
+<script>
+import header from './header/header.focus';
+import desktop from './desktop/desktop.focus';
+export default {
+    on:function (e) {console.log(e)}
+}
+</script>

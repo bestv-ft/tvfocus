@@ -9,6 +9,8 @@
     "email": "zr443@163.com"
   },
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "tvfocus": "^1.1.0"
+  },
   "devDependencies": {}
 }
