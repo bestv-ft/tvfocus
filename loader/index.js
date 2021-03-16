@@ -27,7 +27,7 @@ module.exports = function(source) {
         _script = 'var options = (function () {' + _script.replace(/export\s+default/, 'return') + '})()';
         _out.push(_script);
         for (var i in _compnames) {
-            _out.push(i + '.name=\'' + i + '\'');
+            _out.push(i + '.setName(\'' + i + '\')');
             _out.push('$Runtime.addSubcomponent(' + i + ')');
         }
         _out.push('for (var e in options) {$Runtime.addListener(e,options[e])}');

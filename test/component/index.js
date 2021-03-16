@@ -48,4 +48,28 @@ var main_focus = MainFocusComp.createInstance({
     }
 });
 
-TVFocus.init(main_focus);
+document.onkeydown = function(e) {
+    if (38 == e.keyCode) {
+        TVFocus.moveTo('up');
+        e.preventDefault();
+    }
+    else if (40 == e.keyCode) {
+        TVFocus.moveTo('down');
+        e.preventDefault();
+    }
+    else if (37 == e.keyCode) {
+        TVFocus.moveTo('left');
+        e.preventDefault();
+    }
+    else if (39 == e.keyCode) {
+        TVFocus.moveTo('right');
+        e.preventDefault();
+    }
+}
+
+
+
+TVFocus.setting({
+    ui:true
+});
+TVFocus.init(TVFocus.getNodeById('navbar').getChildByIndex(0));

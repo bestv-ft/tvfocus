@@ -1,6 +1,6 @@
 {
   "name": "tvfocus-loader",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "tvfocus single file component loader",
   "main": "index.js",
   "scripts": {},
@@ -10,7 +10,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "tvfocus": "^1.1.0"
+    "tvfocus": "^1.1.1"
   },
   "devDependencies": {}
 }

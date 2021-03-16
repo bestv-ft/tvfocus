@@ -3,3 +3,22 @@
     {{name}}
 </focus>
 </template>
+<script>
+import TVFocus from 'tvfocus';
+let _last_tab;
+export default {
+    mounted () {
+        this.onMessage('changeTab', function(msg_) {
+            this.setScrollX(-1280*msg_.data);
+            this.children[msg_.data].disabled = 0;
+            if (undefined !== _last_tab) {
+                this.children[_last_tab].disabled = 1;
+            }
+            _last_tab = msg_.data;
+        });
+    },
+    blur() {
+        TVFocus.hideUI();
+    }
+}
+</script>

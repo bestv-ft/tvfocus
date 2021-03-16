@@ -7,6 +7,5 @@ module.exports = function (tpl_) {
         _comp.addRender(new Function('$Runtime', 'return ' + _funcs[1][i])(_comp), i);
     }
     _comp.addRender(new Function('$Runtime', 'return ' + _funcs[0])(_comp));
-    console.log(_funcs);
     return _comp;
 }

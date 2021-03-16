@@ -27,11 +27,14 @@ function Component(temp_) {
     this.subComps = {};
     this.subTemps = {};
     this.listener = {};
-    this.name='root';
+    this.name='';
     this.render = function() {return ''};
 }
 
 Component.prototype.createInstance = function(options_) {
+    if (!this.name) {
+        this.setName('root');
+    }
     options_.render = this.render;
     options_.name = this.name;
     return new FocusNode(options_);
@@ -60,9 +63,15 @@ Component.prototype.addRender = function(func_, name_) {
 Component.prototype.addSubcomponent = function(comp_) {
     this.subComps[comp_.name] = comp_;
 }
-
-Component.prototype.addListener = function(name_, event_) {
-    FocusNode.addEventListener(this.name, name_, event_);
+Component.prototype.setName = function(name_) {
+    this.name = name_;
+    for (var e_ in this.listener) {
+        FocusNode.addEventListener(this.name, e_, this.listener[e_]);
+    }
+    this.listener = {};
+}
+Component.prototype.addListener = function(name_, cb_) {
+    this.listener[name_] = cb_;
 }
 Component.prototype.forEach = function(list_, mbarray_, cb_) {
     return forEach(list_, mbarray_, cb_);

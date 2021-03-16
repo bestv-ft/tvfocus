@@ -1,6 +1,6 @@
 # Installation
 Using npm:
-> $ npm i --save tvfocus-loader
+> $ npm i --save --dev tvfocus-loader
 
 # Configuration 
 

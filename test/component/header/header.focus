@@ -103,6 +103,9 @@ export default {
             }
             this.setScrollX(_offset);
         });
+    },
+    on () {
+        console.log('navbar on');
     }
 }
 </script>

@@ -85,9 +85,9 @@ var Rule = {
             if (undefined != _attrs['class'] && 'String' == _attrs['class'].type) {
                 _attrs['name'] = {type:'String',value:_attrs['class'].value.replace(/ +/g,'_')};
             }
-        }
-        if (undefined === _attrs['name']) {
-            throw new Error('focus tag need \'name\' attribute');
+            else {
+                throw new Error('focus tag need \'name\' attribute');
+            }
         }
         //属性值的格式检查
         if ('String' !== _attrs['name'].type) {
