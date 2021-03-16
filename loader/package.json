@@ -1,11 +1,14 @@
 {
   "name": "tvfocus-loader",
   "version": "1.0.0",
-  "description": "",
+  "description": "tvfocus single file component loader",
   "main": "index.js",
   "scripts": {},
-  "author": "derong.zeng",
-  "license": "ISC",
+  "author": {
+    "name": "derong.zeng",
+    "email": "zr443@163.com"
+  },
+  "license": "MIT",
   "dependencies": {},
   "devDependencies": {}
 }
