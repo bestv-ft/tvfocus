@@ -1,0 +1,26 @@
+<template>
+    <focus name="tab" class="{{$global.tab}}" each="{{$data}}" disabled >
+        {{each rows row}}
+        <div class="{{$global.row}}">
+            <focus name="item" each="{{row.data}}" class="{{$global[row.type]}}">{{$data}}</focus>
+        </div>
+        {{/each}}
+    </focus>
+</template>
+<script>
+import Style from '../style/content.css';
+let lastTab;
+export default {
+    created (e) {
+        e.data.$global = Style;
+        this.onMessage('changeTab', (msg_) => {
+            if (undefined !== lastTab) {
+                this.getChildByIndex(lastTab).disabled = true;
+            }
+            lastTab = msg_.data;
+            this.getChildByIndex(lastTab).disabled = false;
+            this.setScrollX(-lastTab*1280);
+        });
+    }
+}
+</script>

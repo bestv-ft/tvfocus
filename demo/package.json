@@ -1,18 +1,18 @@
 {
-  "name": "tvfocus",
+  "name": "tvfocus-test",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "./node_modules/.bin/webpack --config webpack.config.js  --mode production",
-    "dev": "./node_modules/.bin/webpack-dev-server --config webpack.config.dev.js  --mode development",
-    "demo": "./node_modules/.bin/webpack-dev-server --config webpack.config.demo.js  --mode development",
-    "test": "node ./test/compiler.js"
+    "dev": "./node_modules/.bin/webpack-dev-server --config webpack.config.js  --mode development"
   },
   "author": "derong.zeng",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "tvfocus": "^1.1.1"
+  },
   "devDependencies": {
+    "tvfocus-loader": "^1.0.1",
     "html-webpack-plugin": "^4.3.0",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.43.0",

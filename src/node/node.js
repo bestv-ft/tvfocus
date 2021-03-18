@@ -319,6 +319,9 @@ FocusNode.prototype.addChild = function (node_) {
     if (this.cacheID && !node_.cacheID) {
         node_.cacheID = this.cacheID;
     }
+    if (this.$data.$global && !node_.$data.$global) {
+        node_.$data.$global = this.$data.$global;
+    }
     this.children.push(node_);
     return node_;
 }

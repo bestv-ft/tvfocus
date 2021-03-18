@@ -24,6 +24,11 @@ Contextspace.prototype.setVariables = function(vars_) {
 }
 
 Contextspace.prototype.addVariable = function(k_) {
+    for (var i = 0; i < this.variables.length; i++) {
+        if (this.variables[i] == k_) {
+            return;
+        }
+    }
     this.variables.push(k_);
 }
 
@@ -59,6 +64,9 @@ Contextspace.prototype.addToken = function(type_, name_, code_) {
         var _s = new Contextspace(this, 'FocusEach');
         _s.addVariable('$value');
         _s.addVariable('$index');
+        for (var i = 0; i < this.variables.length; i++) {//合并上级空间的局部变量
+            _s.addVariable(this.variables[i]);
+        }
         _t.addSubspace(_s);
     }
     else if ('focus' == _t.name) {

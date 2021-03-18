@@ -18,12 +18,22 @@ module.exports = {
     },
     module: {
         rules: [
+			{
+                test: /\.css$/,
+                //开启css modules
+                use: [{loader: 'style-loader'},{loader: 'css-loader',options:{modules:true}}]
+            },
             {
                 test:/\.focus$/,
                 exclude:/(node_modules)/,//排除掉node_module目录
                 use:path.resolve(__dirname, './loader/index.js')
             }
         ]
+    },
+	resolve:{
+        alias: {
+            'tvfocus': path.resolve(__dirname,'./src')// 这样配置后 @ 可以指向 src 目录
+        }
     },
     optimization: {
         minimizer: [new UglifyJsPlugin({
@@ -34,7 +44,7 @@ module.exports = {
     },
     plugins:[
         new HtmlPlugin({   //入口自动注入
-            inject:'head',
+            inject:true,
             filename: './index.html',      //相对于output.path
             template: './demo/index.html'
         })

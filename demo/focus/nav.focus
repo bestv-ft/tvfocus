@@ -1,0 +1,37 @@
+<template>
+    <focus class="{{$global.button}}" cache name="navbutt" each="{{$data}}">
+        {{$data}}
+    </focus>
+</template>
+<script>
+import Style from '../style/nav.css';
+import TVFocus from 'tvfocus';
+TVFocus.addEventListener('navbutt', {
+    on(e) {
+        e.preventDefault();
+        this.$ele.style.backgroundColor = '#FFFFFF';
+        this.$ele.style.color = '#333333';
+    },
+    blur() {
+        this.$ele.style.backgroundColor = '#333333';
+        this.$ele.style.color = '#FFFFFF';
+    },
+    selected() {
+        this.$ele.style.fontWeight='bold';
+        this.$ele.style.textDecoration='underline';
+        this.postMessage('changeTab', this.index);//发消息
+    },
+    unselected() {
+        this.$ele.style.fontWeight='normal';
+        this.$ele.style.textDecoration='none';
+    }
+});
+export default {
+    created(e) {
+        e.data.$global = Style;
+    },
+    on () {
+        TVFocus.hideUI();
+    }
+}
+</script>

@@ -1,0 +1,10 @@
+.button {
+    float: left;
+    height: 50px;
+    width: 120px;
+    text-align: center;
+    line-height: 50px;
+    margin: 0 20px;
+    border-radius: 30px;
+    background-color: #333333;
+}

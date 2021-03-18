@@ -1,45 +1,14 @@
-<div class="heder">
-    <focus class="statusbar" disabled>
-        <div class="logo"></div>
-        <div class="icon"></div>
-        <div class="weather"></div>
-        <div class="clock">--:--</div>
-    </focus>
-    <focus id="navbar" class="navbar" data="menu" scroll="x">
-        <focus each="{{$data}}" cache class="nav" style="width:{{$self.width}}px">
-            {{if show_image}}
-            <div class="image-nav">
-                <div class="image-nav-p" style="background-image: url({{focus_icon}})"></div>
-                <div class="image-nav-p" style="background-image: url({{default_icon}})"></div>
-                <div class="image-nav-p" style="background-image: url({{selected_icon}})"></div>
-            </div>
-            {{else}}
-            {{name}}
-            {{/if}}
-        </focus>
-        <div class="navfocus"></div>
-    </focus>
-    <focus class="desktop" data="menu"  scroll="x">
-        <focus class="screnn" each="{{$data}}" disabled scroll="y">
-            {{each data row}}
-            <div class="row">
-                {{if title}}
-                <div class="title">{{title}}</div>
-                {{/if}}
-                <focus name="row" class="body" scroll="auto" style="height: {{$self.height}}px;">
-                    <focus class="entrance" each="data" data-style="{{style}}" style="width:{{item_width}}px;height:{{item_height}}px">
-                        {{if 'default' == still}}
-                        <div class="still" style="background-image: url(images/tv.png);background-size: auto;"></div>
-                        {{else}}
-                        <div class="still" style="background-image: url({{still}})"></div>
-                        {{/if}}
-                        {{if title}}
-                        <div class="name">{{title}}</div>
-                        {{/if}}
-                    </focus>
-                </focus>
-            </div>
-            {{/each}}
-        </focus>
-    </focus>
-</div>
+<template>
+    <focus class="{{$global.nav}}" id="nav" name="category"></focus>
+    <focus class="{{$global.content}}" name="content" scroll="x"></focus>
+</template>
+<script>
+import Style from '../style/main.css';
+import category from './nav.focus';
+import content from './content.focus';
+export default {
+    created (e) {
+        e.data.$global = Style;
+    }
+}
+</script>

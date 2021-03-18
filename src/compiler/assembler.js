@@ -49,7 +49,8 @@ Assembler.prototype.build = function (context_) {
     context_ = context_ || this.context;
     var _len = context_.tokens.length, _t, _output = '', _catch;
     if ('Each' === context_.type || 'FocusEach' === context_.type) {
-        _output = 'function(' + context_.variables.join(',') + '){\ntry {';
+        var _variables = [context_.variables[0], context_.variables[1]];
+        _output = 'function(' + _variables.join(',') + '){\ntry {';
     }
     else if ('Focus' === context_.type) {
         _output = 'function($data){\nvar ' + $OUT + '=\'\';\nvar _thisnode=this;\ntry {';
