@@ -33,7 +33,12 @@ function Component(temp_) {
 
 Component.prototype.createInstance = function(options_) {
     if (!this.name) {
-        this.setName('root');
+        if (options_.name) {
+            this.setName(options_.name);
+        }
+        else {
+            this.setName('root');
+        }
     }
     options_.render = this.render;
     options_.name = this.name;

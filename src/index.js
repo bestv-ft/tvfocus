@@ -18,7 +18,7 @@ var TVFocus = {
             throw new ErrorHandler('Template element not find, query by \'' + opts_.ele + '\'');
         }
         opts_.ele = _ele;
-        if (_ele.id) {
+        if (_ele.id && !opts_.name) {
             opts_.name = _ele.id;
         }
         _temp = opts_.template || _ele.innerHTML;
@@ -117,6 +117,7 @@ var TVFocus = {
         }
     }
 }
+TVFocus.on = TVFocus.addEventListener;
 
 FocusNode.addDefaultEventListener('destroy', function(e) {
     if (this.id == TVFocus.node.id) {

@@ -38,7 +38,7 @@ TVFocus的模板语法与vue、wx小程序等模板语法类似,采用了类must
 例如:
 ```html
 <div id="main">
-	<h1>{{message}}</h1>
+  <h1>{{message}}</h1>
 </div>
 ```
 双大括号内,可以是变量、表达式、JS内置的原生对象或方法。
@@ -47,13 +47,13 @@ TVFocus的模板语法与vue、wx小程序等模板语法类似,采用了类must
 {{if a}}
   <h1>a</h1>
 {{else if b}}
-	<h1>b</h1>
+  <h1>b</h1>
 {{else}}
-	<h1>c</h1>
+  <h1>c</h1>
 {{/if}}
 
 {{each obj val key}}
-	<div>{{key}}:{{val}}</div>
+  <div>{{key}}:{{val}}</div>
 {{/each}}
 ```
 ### focus标签
@@ -81,10 +81,10 @@ focus标签的属性值,可使用模板变量或字符串、数字,不可变量�
 style属性和layout属性例外,它们可由变量和字符串混合使用,例如:
 ```html
 <focus name="btn" data={{btn}} id="{{btn_id}}" style="
-                    float: left; 
-                    width: {{width}}px;
-                    margin: 10px;
-                    height: {{height}}px;">
+    float: left; 
+    width: {{width}}px;
+    margin: 10px;
+    height: {{height}}px;">
  {{title}}</focus>
 ```
 
@@ -117,24 +117,29 @@ TVFocus的模板命名空间规则为:所有的模板变量,都是其所在的fo
 
 
 **需注意的是**,focus标签属性值中的变量,其命名空间是其父标签的data。只有focus标签内才是它的data空间范围。
-除此之前,还有4个内置变量,分别是:
+除此之前,还有5个内置变量,分别是:
 
    - $data,直接指向focus的data属性本身,当data属值是数字、字符串等直接量时,用$data非常有用,例如上面示例中的“grandson”。
+   - $global,global变量意味着你可以在整个模板的任意地方使用，而不用管作用域层级。申明global变量需要在顶层节点的created时间里，将需要的变量属性赋值到$data.$global上来。
    - $self,在标签属性上,作用域还是父标签的data范畴,如果要提前使用本标签内的数据,则需要加上$self前缀。
    - $value,在each语句中,如果没有指定第二个参数,则默认用$value表示当前循环的值。
    - $index,在each语句中,如果没有指定第三个参数,则默认用$index表示当前循环的下标(对象的key),例如:
 ```javascript
 <div id="main">
   {{each list}}
-    <div>循环到{{$index}},它的值是{{$value}}</div>
+    <div title="{{$global.a}}">循环到{{$index}},它的值是{{$value}}</div>
   {{/each}}
-    <focus class="foo">
-      <focus id="{{$self.id}}" class="bar">{{name}}</focus>
-   </focus>
- </div>
- <script>
+  <focus class="foo">
+    <focus id="{{$self.id}}" class="bar">{{name}}--{{$global.b}}</focus>
+  </focus>
+</div>
+<script>
+TVFocus.addEventListener('main', 'created', function(){
+  this.$data.$global = {a:1,b:2};
+});
 var mainFocus = TVFocus.createNode({
   ele:'#main',
+  name:'main',
   data:{
     list:['a','b','c'],
     foo:{
