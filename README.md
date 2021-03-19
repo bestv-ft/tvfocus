@@ -120,7 +120,7 @@ var mainFocus = TVFocus.createNode({
 除此之前,还有5个内置变量,分别是:
 
    - $data,直接指向focus的data属性本身,当data属值是数字、字符串等直接量时,用$data非常有用,例如上面示例中的“grandson”。
-   - $global,global变量意味着你可以在整个模板的任意地方使用，而不用管作用域层级。申明global变量需要在顶层节点的created事件里，将需要的变量属性赋值到$data.$global上来。
+   - $global,global变量意味着你可以在整个模板的任意地方使用,而不用管作用域层级。申明global变量需要在顶层节点的created事件里,将需要的变量属性赋值到$data.$global上来。
    - $self,在标签属性上,作用域还是父标签的data范畴,如果要提前使用本标签内的数据,则需要加上$self前缀。
    - $value,在each语句中,如果没有指定第二个参数,则默认用$value表示当前循环的值。
    - $index,在each语句中,如果没有指定第三个参数,则默认用$index表示当前循环的下标(对象的key),例如:
@@ -371,3 +371,80 @@ cache属性无需指定其值,例如:
 ```html
 <focus each="{{$data}}" cache class="item">{{$data}}</focus>
 ```
+### 速查手册
+#### TVFocus方法与属性
+- TVFocus.createNode(opts)
+> 快速创建一个光标节点对象,opts可传入的主要选项:
+> opts.ele 节点需要挂载的DOM对象。
+> opts.data 节点数据。
+> opts.template 节点的模板,如未传则从opts.ele.innerHTML取值。
+> 
+- TVFocus.init(FocusNode)
+> 设置页面的初始落焦节点。
+> 
+- TVFocus.getNodeById(id)
+> 在已注册的所有光标节点中,根据id搜索对应的节点并返回。
+> 
+- TVFocus.change(newNode,\[dir])
+> 切换落焦节点,dir表示要模拟哪个方向切换,取值为left/right/down/up。
+> 
+- TVFocus.addEventListener|on(name, events,\[callback])
+> 监听节点的生命周期事件或光标事件。events为事件名callback为事件对应的回调函数。events也可以key=>func的对象形式,一次监听多个事件。
+> 
+- TVFocus.moveTo(dir)
+> 以当前节点为源点,向指定方向搜索下个落焦节点,dir取值为left/right/down/up。
+> 
+- TVFocus.setting(opts)
+> 设置框架,opts可传入的主要选项:
+> opts.debug 打开调试,开启后节点的边框和尺寸会直接绘制出来(1绘制边框,2绘制尺寸)。
+> opts.ui 打开后会使用框架自带的光标框UI(蓝色发光光标框)
+> opts.moveType 框架移动光标框会模式使用translate3d方式,当moveType=2时会改用left/top方式来保证更好的兼容性。
+> 
+- TVFocus.hideUI()
+> 当使用框架自带光标框UI时,调用此方法可临时隐藏自带光标框。
+> 
+- TVFocus.node
+> 公开属性,时刻指向当前落焦的节点。
+> 
+- TVFocus.locked
+> 公开属性,TVFocus.locked=1时,TVFocus.moveTo将不会工作,由此来实现防抖等特性。
+> 
+#### FocusNode实例的公开方法与属性
+- node.getEle()
+> 返回节点对应的DOM对象,该方法仅在mounted及以后事件中可用。
+> 
+- node.postMessage(name, data, \[id])
+> 广播[向指定id节点]一条消息,附带数据data。
+> 
+- node.onMessage(name, callback)
+> 监听名为name的消息,执行callback回调。注意如果callback为非箭头函数的话,内部慎用this。这点与事件监听不同。
+> 
+- node.addTag(tag)
+> 为节点设置一个标签,以便使其能够通过标签监听事件,标签可设定多个。注意设定与监听的先后顺序。
+> 
+- node.setId(id)
+> 为节点设置一个id,以便使其能够通过id查找或监听事件。
+> 
+- node.markFocusData(key)
+> 将渲染数据中的key标记为光标数据,渲染数据在mounted之后会销毁,光标数据会跟随节点生命周期保留,光标数据可通过this.data.key访问。
+> 
+- node.addChild(node)
+> 添加一个子节点。
+> 
+- node.getChildByIndex(index)
+> 根据子节点下标查询并返回子节点。
+> 
+- node.setScrollX(x)
+> 让节点在水平方向滑动x像素,只有指定了scroll属性的节点方才有效。
+> 
+- node.setScrollY(x)
+> 让节点在垂直方向滑动x像素,只有指定了scroll属性的节点方才有效。
+> 
+- node.setSelectedTime(time)
+> 设置节点落焦(on)后多久变为选中(selected)状态,默认为0,落焦即选中。
+> 
+- node.rerender(data)
+> 重新渲染,适用于异步节点。节点本身不会再触发mounted事件,但是新生成的子节点会触发完整的生命周期事件。
+> 
+- node.disabled
+> 当disabled=true时,该节点将不会落焦,TVFocus.moveTo将直接跳过该节点。直到disabled=false才会恢复落焦。
