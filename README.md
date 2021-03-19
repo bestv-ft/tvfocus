@@ -374,9 +374,9 @@ cache属性无需指定其值,例如:
 ### 速查手册
 #### TVFocus方法与属性
 - TVFocus.createNode(opts)
-> 快速创建一个光标节点对象,opts可传入的主要选项:
-> opts.ele 节点需要挂载的DOM对象。
-> opts.data 节点数据。
+> 快速创建一个光标节点对象,opts可传入的主要选项:<br />
+> opts.ele 节点需要挂载的DOM对象。<br />
+> opts.data 节点数据。<br />
 > opts.template 节点的模板,如未传则从opts.ele.innerHTML取值。
 > 
 - TVFocus.init(FocusNode)
@@ -395,9 +395,9 @@ cache属性无需指定其值,例如:
 > 以当前节点为源点,向指定方向搜索下个落焦节点,dir取值为left/right/down/up。
 > 
 - TVFocus.setting(opts)
-> 设置框架,opts可传入的主要选项:
-> opts.debug 打开调试,开启后节点的边框和尺寸会直接绘制出来(1绘制边框,2绘制尺寸)。
-> opts.ui 打开后会使用框架自带的光标框UI(蓝色发光光标框)
+> 设置框架,opts可传入的主要选项:<br />
+> opts.debug 打开调试,开启后节点的边框和尺寸会直接绘制出来(1绘制边框,2绘制尺寸)。<br />
+> opts.ui 打开后会使用框架自带的光标框UI(蓝色发光光标框)<br />
 > opts.moveType 框架移动光标框会模式使用translate3d方式,当moveType=2时会改用left/top方式来保证更好的兼容性。
 > 
 - TVFocus.hideUI()
