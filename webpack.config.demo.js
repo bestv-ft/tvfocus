@@ -26,13 +26,13 @@ module.exports = {
             {
                 test:/\.focus$/,
                 exclude:/(node_modules)/,//排除掉node_module目录
-                use:path.resolve(__dirname, './loader/index.js')
+                use:path.resolve(__dirname, './loader/dev.js')
             }
         ]
     },
 	resolve:{
         alias: {
-            'tvfocus': path.resolve(__dirname,'./src')// 这样配置后 @ 可以指向 src 目录
+            'tvfocus': path.resolve(__dirname,'./src')
         }
     },
     optimization: {

@@ -16,19 +16,19 @@ module.exports = {
         contentBase:'./test/',
         open:true //是否自动打开默认浏览器
     },
+    resolve:{
+        alias: {
+            'tvfocus': path.resolve(__dirname,'./src')
+        }
+    },
     module: {
         rules: [
             {
                 test:/\.focus$/,
-                exclude:/(node_modules)/,//排除掉node_module目录
-                use:path.resolve(__dirname, './loader/index.js')
+                exclude:/(node_modules)/,
+                use:path.resolve(__dirname, './loader/dev.js')
             }
         ]
-    },
-    resolve:{
-        alias: {
-            'tvfocus': path.resolve(__dirname,'./src')// 这样配置后 @ 可以指向 src 目录
-        }
     },
     optimization: {
         minimizer: [new UglifyJsPlugin({
