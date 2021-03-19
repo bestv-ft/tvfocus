@@ -398,7 +398,7 @@ cache属性无需指定其值,例如:
 > 设置框架,opts可传入的主要选项:<br />
 > opts.debug 打开调试,开启后节点的边框和尺寸会直接绘制出来(1绘制边框,2绘制尺寸)。<br />
 > opts.ui 打开后会使用框架自带的光标框UI(蓝色发光光标框)<br />
-> opts.moveType 框架移动光标框会模式使用translate3d方式,当moveType=2时会改用left/top方式来保证更好的兼容性。
+> opts.moveType 框架移动光标框会默认使用translate3d方式,当moveType=2时会改用left/top方式来保证更好的兼容性。
 > 
 - TVFocus.hideUI()
 > 当使用框架自带光标框UI时,调用此方法可临时隐藏自带光标框。
@@ -414,7 +414,7 @@ cache属性无需指定其值,例如:
 > 返回节点对应的DOM对象,该方法仅在mounted及以后事件中可用。
 > 
 - node.postMessage(name, data, \[id])
-> 广播[向指定id节点]一条消息,附带数据data。
+> 广播\[向指定id节点]一条消息,附带数据data。
 > 
 - node.onMessage(name, callback)
 > 监听名为name的消息,执行callback回调。注意如果callback为非箭头函数的话,内部慎用this。这点与事件监听不同。
