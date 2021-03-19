@@ -95,23 +95,23 @@ style属性和layout属性例外,它们可由变量和字符串混合使用,例�
 TVFocus的模板命名空间规则为:所有的模板变量,都是其所在的focus标签的data属性。看代码一目了然:
 ```html
 <div id="main">
-        <h1>{{name}}</h1>
-        <focus data={{son}} name="a">
-            <h2>{{name}}</h2>
-            <focus data={{grandson}} name="b">{{$data}}</focus>
-        </focus>
-    </div>
-    <script>
-    var mainFocus = TVFocus.createNode({
-        ele:'#main',
-        data:{
-            name:'I`m Kim Il Sung',
-            son:{
-                name:'Kim Jong Il',
-                grandson:'Kim Jong Un'
-            }
-        }
-    });
+  <h1>{{name}}</h1>
+  <focus data={{son}} name="a">
+    <h2>{{name}}</h2>
+    <focus data={{grandson}} name="b">{{$data}}</focus>
+  </focus>
+</div>
+<script>
+var mainFocus = TVFocus.createNode({
+  ele:'#main',
+  data:{
+    name:'I`m Kim Il Sung',
+    son:{
+      name:'Kim Jong Il',
+      grandson:'Kim Jong Un'
+    }
+  }
+});
 </script>
 ```
 
@@ -120,7 +120,7 @@ TVFocus的模板命名空间规则为:所有的模板变量,都是其所在的fo
 除此之前,还有5个内置变量,分别是:
 
    - $data,直接指向focus的data属性本身,当data属值是数字、字符串等直接量时,用$data非常有用,例如上面示例中的“grandson”。
-   - $global,global变量意味着你可以在整个模板的任意地方使用，而不用管作用域层级。申明global变量需要在顶层节点的created时间里，将需要的变量属性赋值到$data.$global上来。
+   - $global,global变量意味着你可以在整个模板的任意地方使用，而不用管作用域层级。申明global变量需要在顶层节点的created事件里，将需要的变量属性赋值到$data.$global上来。
    - $self,在标签属性上,作用域还是父标签的data范畴,如果要提前使用本标签内的数据,则需要加上$self前缀。
    - $value,在each语句中,如果没有指定第二个参数,则默认用$value表示当前循环的值。
    - $index,在each语句中,如果没有指定第三个参数,则默认用$index表示当前循环的下标(对象的key),例如:
@@ -152,7 +152,7 @@ var mainFocus = TVFocus.createNode({
 });
  </script>
 ```
-**
+
 ### 启动
 #### 渲染模板
 严格意义上来说,TVFocus没有提供模板渲染方法,仅提供了创建节点的方法:TVFocus.createNode。
@@ -186,20 +186,20 @@ TVFocus.init(root_node.getChildByIndex(0));
 TVFocus提供了moveTo方法用于光标移动。开发者可自行监听遥控器方向键,然后调用TVFocus.moveTo方法实现光标移动,moveTo方法接受一个direction参数,用于告诉框架向哪个方向移动,该参数取值为"left/right/up/down"这四个字符串,例如:
 ```javascript
 document.onkeydown = function(e) {
-    switch(e.keyCode) {
-      case 38:
-        TVFocus.moveTo('up');
-        break;
-      case 39:
-        TVFocus.moveTo('right');
-        break;
-      case 40:
-        TVFocus.moveTo('down');
-        break;
-      case 37:
-        TVFocus.moveTo('left');
-        break;
-    }
+  switch(e.keyCode) {
+  case 38:
+    TVFocus.moveTo('up');
+    break;
+  case 39:
+    TVFocus.moveTo('right');
+    break;
+  case 40:
+    TVFocus.moveTo('down');
+    break;
+  case 37:
+    TVFocus.moveTo('left');
+    break;
+  }
 }
 ```
 TVFocus的节点寻路采用的是就近落焦。框架会根据光标节点的布局信息,选中符合移动方向的、距离当前节点最近的一个新节点。
@@ -221,16 +221,16 @@ on(落焦)/blur(失焦)、selected(选中)/unselected(未选中)、border(到达
 通过TVFocus.addEventListener可实现对节点的事件监听。TVFocus.addEventListener方法有三个入参,分别为:监听对象(节点的name)、事件名、回调函数。例如:
 ```javascript
 TVFocus.addEventListener('nav', 'on', function(event) {
-    console.log('我落焦了');
+  console.log('我落焦了');
 });
 //也可把事件名和回调,合并成key=>value对象的方式一次监听多个事件。
 TVFocus.addEventListener('nav', {
-    on: function(event) {
-        console.log('我落焦了');
-    },
-    blur: function(event) {
-        console.log('拜拜了您');
-    }
+  on: function(event) {
+    console.log('我落焦了');
+  },
+  blur: function(event) {
+    console.log('拜拜了您');
+  }
 });
 ```
 如上所示,每个回调函数,可接收一个event参数。event参数包含一些事件上下文信息以供回调函数使用。比如:
@@ -299,15 +299,15 @@ width与height表示光标节点的区域大小,这个好理解。left和top表�
 layout属性参照了DOM的style属性值的格式,就如同设置style一样:
 ```html
 <focus name="m_btn"
-   layout="
-       left:{{10+$index%3*320}};
-       top:{{10+Math.floor($index/3)*70}}"
-   style="
-      float: left; 
-      width: 300px;
-      margin: 10px;
-      background-color: #4d824d;
-      height: 50px;"
+  layout="
+    left:{{10+$index%3*320}};
+    top:{{10+Math.floor($index/3)*70}}"
+  style="
+    float: left; 
+    width: 300px;
+    margin: 10px;
+    background-color: #4d824d;
+    height: 50px;"
 each={{$data}}>{{title}}</focus>
 ```
 layout属性与style属性的区别在于:layout属性的单位默认是px,不支持其它单位。layout属性的left与top,是相对于父节点左顶点的距离,与style的定位无关。
